@@ -1,0 +1,45 @@
+# Strumenti
+TASM = TASM.EXE
+TAM32 = TASM53.EXE
+WLINK = WLINK.EXE
+BINOBJ = BINOBJ.EXE
+WCC = WCC386.EXE
+WCL = WCL386.EXE
+PMWSETUP = PMWSETUP.EXE
+
+# Target principale
+All: DOOMP0.EXE
+
+# 1. Assemblaggio DPMI.ASM (Core 0)
+DPMI.OBJ: DPMI.ASM
+	$(TASM) /ml DPMI.ASM
+
+# 2. Assemblaggio DOOMP1.ASM (Core 1 16 bit)
+DOOMP1.OBJ: DOOMP1.ASM
+	$(TASM32) DOOMP1.ASM
+
+# 3. Assemblaggio DOOMP2.ASM (Core 1 32 bit)
+DOOMP2.OBJ: DOOMP2.ASM
+	$(TASM32) DOOMP2.ASM
+
+# 4. Linking di DMCORE per ottenere il binario grezzo
+DMCORE.BIN: DMCORE.DEF DOOMP1.OBJ DOOMP2.OBJ
+	$(WLINK) @DMCORE.DEF
+
+# 5. Conversione del binario in oggetto collegabile
+DMCORE.OBJ: DMCORE.BIN
+	$(BINOBJ) DMCORE.BIN DMCORE.OBJ _DMCORE
+
+# 6. Compilazione del codice C a 32-bit
+DOOMP0.OBJ: DOOMP0.C
+	$(WCC) DOOMP0.C
+
+# 7. Linking finale + configurazione PMODE/W
+# Nota: mettiamo PMWSETUP qui dentro cosi' viene eseguito solo quando 
+# DOOMP0.EXE viene effettivamente rigenerato!
+DOOMP0.EXE: DOOMP0.OBJ DPMI.OBJ DMCORE.OBJ
+	$(WCL) -bt=dos -l=PMODEW -fe=DOOMP0.EXE DOOMP0.OBJ DPMI.OBJ DMCORE.OBJ
+#	$(PMWSETUP) /P40 DOOMP0.EXE
+#	$(PMWSETUP) /R40 DOOMP0.EXE
+#	$(PMWSETUP) /X00040000 DOOMP0.EXE
+#	$(PMWSETUP) /L00000400 DOOMP0.EXE

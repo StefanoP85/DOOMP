@@ -1,0 +1,74 @@
+Open Watcom Linker Version 1.9
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       26/11/22 14:11:49
+Executable Image: DMCORE.BIN
+creating a RAW Binary Image executable
+
+
+                        +------------+
+                        |   Groups   |
+                        +------------+
+
+Group                           Address              Size
+=====                           =======              ====
+
+DGROUP                          00000000             000005e0
+
+
+
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+CODE16                 CODE           DGROUP         00000000        00000060
+CODE32                 CODE           DGROUP         00000060        0000015e
+_TEXT                  CODE           AUTO           000001c0        00000000
+DATA                   DATA           DGROUP         000001c0        0000041e
+_DATA                  DATA           DGROUP         000005e0        00000000
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: DOOMP1.OBJ(DOOMP1.ASM)
+00000002*      RELOCREALSEG
+
+
+                        +---------------------+
+                        |   Module Segments   |
+                        +---------------------+
+
+! = 32-bit segment
+c = initialized communal data
+
+Module          Segment               Class           Address         Size
+======          =======               =====           =======         ====
+
+DOOMP1.ASM      DATA                  DATA           000001c0         0000041e
+                CODE16                CODE           00000000         00000060
+                CODE32                CODE           00000060  !      00000002
+DOOMP2.ASM      _TEXT                 CODE           000001c0  !      00000000
+                _DATA                 DATA           000005e0  !      00000000
+                CODE32                CODE           00000062  !      0000015c
+Warning! W1014: stack segment not found
+Warning! W1023: no starting address found, using 00000000
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  1000 (4096.)
+Memory size:  05e0 (1504.)
+Entry point address: 00000000
+Link time: 00:00.55
