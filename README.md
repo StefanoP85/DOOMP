@@ -36,7 +36,7 @@ La mia configurazione di QEMU è la seguente.
 qemu-system-i386.exe -m 64 -cpu coreduo -smp 2,cores=2 -audiodev dsound,id=snd0 -device ich9-intel-hda -device hda-duplex,audiodev=snd0 -rtc base=localtime -boot c -drive file=C:\QDOS\DOS.qcow2,format=qcow2
 ```
 
-La funzione P_UnsetThingPosition contiene un potenziale hack, per 
+La funzione P_UnsetThingPosition, in P_MAPUTL.C, contiene un potenziale hack; io ho disassemblato in WinDBG il codice estratto da QEMU:
 
 ```
 ; void __watcall P_UnsetThingPosition(mobj_t *thing)
