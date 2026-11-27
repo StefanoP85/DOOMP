@@ -33,7 +33,7 @@ Durante la messa a punto del progetto ho realizzato diversi "surrogati", per tes
 La mia configurazione di QEMU è la seguente.
 
 ```bash
-qemu-system-i386.exe -m 64 -cpu coreduo -smp 2,cores=2 -audiodev dsound,id=snd0 -device ich9-intel-hda -device hda-duplex,audiodev=snd0 -rtc base=localtime -boot c -drive file=C:\QDOS\DOS.qcow2,format=qcow2
+qemu-system-i386.exe -m 64 -cpu coreduo -smp 2,cores=2 -audiodev sdl,id=snd0 -device sb16,audiodev=snd0 -device adlib,audiodev=snd0 -rtc base=localtime -boot c -drive file=C:\QDOS\DOS.qcow2,format=qcow2
 ```
 
 La funzione P_UnsetThingPosition, in P_MAPUTL.C, contiene un potenziale hack; io ho disassemblato in WinDBG il codice estratto da QEMU:
